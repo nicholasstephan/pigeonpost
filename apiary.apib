@@ -39,26 +39,25 @@ A little story about pigeons...
 
 + Request (application/json)
 
-        {
-            "to": [
-                {
-                    "address": "amanda.rvx@gmail.com",
-                    "name": "Amanda Carter"
-                },
-                {
-                    "address": "alberto.rvx@gmail.com",
-                    "name": "Alberto Siza"
-                }
-            ],
-            "cc": [],
-            "bcc": [],
-            "reply_to": {
-                "address": "wyland.rvx@gmail.com",
-                "name": "Wyland Wu"
-            },
-            "subject": "Take good care of this pigeon",
-            "message": "",
-            "attachments": []
+        {  
+           "from": {
+             "host": "smtp.gmail.com",
+             "port": "587",
+             "security": "tls",
+             "auth": true,
+             "username": "alberto.rvx@gmail.com",
+             "password": "--------",
+             "address": "alberto.rvx@gmail.com",
+             "name": "Alberto Siza"
+           },
+           "to": [
+            {
+              "address": "amanda.rvx@gmail.com",
+              "name": "Amanda Carter"
+            }
+           ],
+           "subject": "Test with external smtp",
+           "message": "<b>Hello</b>!!"
         }
 
 + Response 200
