@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: https://pigeonpost-nicholasstephan.c9users.io/
 
 # Pigeon Post
 
@@ -11,6 +11,9 @@ A little story about pigeons...
 
 | PROPERTY                         | TYPE             | REQUIRED | LIMITS | DESCRIPTION                                                                                                               |
 |----------------------------------|------------------|----------|--------|---------------------------------------------------------------------------------------------------------------------------|
+| **from**                         | Objects          | YES      |        | Our birds our trained to tap this out in morse code so your recipients will know where to send their replies.             |
+| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | Tap tap taaap... tap tap... tap tap tap.                                                                                  |
+| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | Tap taaap tap tap... tap tap tap... taaaap tap tap.                                                                       |
 | **to**                           | Array of Objects | YES      |        | Our prime offering. These birds are big and strong, fed the freshest grains twice a day by beautiful women.               |
 | &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | These birds will fly true to this destination.                                                                            |
 | &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, written in our best calligraphy.                                                      |
