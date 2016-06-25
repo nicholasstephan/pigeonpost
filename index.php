@@ -8,10 +8,10 @@ require_once("vendor/autoload.php");
 //
 
 function sendEmail($message) {
+    $from = $message->from;
     $to = $message->to;
     $cc = $message->cc;
     $bcc = $message->bcc;
-    $from = $message->from;
     $subject = $message->subject;
     $message = $message->message;
     $attachments = $message->attachments;
@@ -23,12 +23,12 @@ function sendEmail($message) {
     $mail->isSMTP();
     $mail->SMTPDebug = 0; // 1 or 2 for debugging
     $mail->Debugoutput = 'html';
-    $mail->Host = 'smtp.gmail.com';
-    $mail->Port = 587;
-    $mail->SMTPSecure = 'tls';
-    $mail->SMTPAuth = true;
-    $mail->Username = "alberto.rvx@gmail.com";
-    $mail->Password = "zAq12345";
+    $mail->Host = $from->host;
+    $mail->Port = $from->port;
+    $mail->SMTPSecure = $from->security;
+    $mail->SMTPAuth = $from->auth;
+    $mail->Username = $from->username;
+    $mail->Password = $from->password;
     $mail->isHTML(true);
     
     $mail->setFrom($from->address, $from->name);
@@ -58,6 +58,39 @@ function sendEmail($message) {
 //
 
 $f3 = Base::instance();
+
+
+/** 
+ * Send an email.
+ * 
+ * Docs:
+ * 
+ *     http://docs.pigeonpost.apiary.io/#reference/0/email-capsules
+ * 
+ * Example Payload:
+ * 
+ *     {  
+ *        "from": {
+ *          "host": "smtp.gmail.com",
+ *          "port": "587",
+ *          "security": "tls",
+ *          "auth": true,
+ *          "username": "alberto.rvx@gmail.com",
+ *          "password": "zAq12345",
+ *          "address": "alberto.rvx@gmail.com",
+ *          "name": "Alberto Siza"
+ *        },
+ *        "to": [
+ *         {
+ *           "address": "amanda.rvx@gmail.com",
+ *           "name": "Amanda Carter"
+ *         }
+ *        ],
+ *        "subject": "Hello Amanda",
+ *        "message": "<b>Hello</b> Amanda!"
+ *     }
+ * 
+ */
 
 $f3->route('POST /email',
     function($f3) {

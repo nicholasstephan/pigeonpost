@@ -11,9 +11,15 @@ A little story about pigeons...
 
 | PROPERTY                         | TYPE             | REQUIRED | LIMITS | DESCRIPTION                                                                                                               |
 |----------------------------------|------------------|----------|--------|---------------------------------------------------------------------------------------------------------------------------|
-| **from**                         | Objects          | YES      |        | Our birds our trained to tap this out in morse code so your recipients will know where to send their replies.             |
+| **from**                         | Objects          | YES      |        | Our birds our trained to tap this out in morse code to keep it secure.                                                    |
 | &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | Tap tap taaap... tap tap... tap tap tap.                                                                                  |
 | &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | Tap taaap tap tap... tap tap tap... taaaap tap tap.                                                                       |
+| &nbsp;&nbsp;&nbsp;&nbsp;host     | String           | YES      |        | Tap tap                                                                                                                   |
+| &nbsp;&nbsp;&nbsp;&nbsp;port     | String           | YES      |        | Tap tap (normally 587)                                                                                                    |
+| &nbsp;&nbsp;&nbsp;&nbsp;security | String           | YES      |        | Tap tap (normally "tls")                                                                                                  |
+| &nbsp;&nbsp;&nbsp;&nbsp;auth     | Boolean          | YES      |        | Tap                                                                                                                       |
+| &nbsp;&nbsp;&nbsp;&nbsp;username | String           | if _auth_|        | Tap tap                                                                                                                   |
+| &nbsp;&nbsp;&nbsp;&nbsp;password | String           | if _auth_|        | Tap                                                                                                                       |
 | **to**                           | Array of Objects | YES      |        | Our prime offering. These birds are big and strong, fed the freshest grains twice a day by beautiful women.               |
 | &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | These birds will fly true to this destination.                                                                            |
 | &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, written in our best calligraphy.                                                      |
