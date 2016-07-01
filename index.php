@@ -3,23 +3,35 @@
 require_once("vendor/autoload.php");
 
 
-//
-// Send an email message.
-//
+$contact_image_data="data:image/png;base64,iVBORw0KGgo[...]";
 
-function sendEmail($message) {
-    $from = $message->from;
-    $to = $message->to;
-    $cc = $message->cc;
-    $bcc = $message->bcc;
-    $subject = $message->subject;
-    $message = $message->message;
-    $attachments = $message->attachments;
+
+
+
+
+// =============================================================================
+// Define Routes
+// =============================================================================
+
+$f3 = Base::instance();
+
+
+
+// http://docs.pigeonpost.apiary.io/#reference/0/email-capsules
+
+$f3->route('POST /email', function($f3) {
+    $payload = json_decode( $f3->get("BODY") );
+    
+    $from = $payload->from;
+    $to = $payload->to;
+    $cc = $payload->cc;
+    $bcc = $payload->bcc;
+    $subject = $payload->subject;
+    $message = $payload->message;
+    $attachments = $payload->attachments;
     
     $mail = new PHPMailer;
     
-    // Gmail example pulled from:
-    // https://github.com/PHPMailer/PHPMailer/blob/master/examples/gmail.phps
     $mail->isSMTP();
     $mail->SMTPDebug = 0; // 1 or 2 for debugging
     $mail->Debugoutput = 'html';
@@ -29,9 +41,8 @@ function sendEmail($message) {
     $mail->SMTPAuth = $from->auth;
     $mail->Username = $from->username;
     $mail->Password = $from->password;
-    $mail->isHTML(true);
-    
     $mail->setFrom($from->address, $from->name);
+    $mail->isHTML(true);
     
     if(is_array($to)) foreach($to as $recipient) {
         $mail->addAddress($recipient->address, $recipient->name);
@@ -48,60 +59,20 @@ function sendEmail($message) {
     $mail->Subject = $subject;
     $mail->Body = $message;
     
-    return $mail->send();
-}
-
-
-
-//
-// Define Routes
-//
-
-$f3 = Base::instance();
-
-
-/** 
- * Send an email.
- * 
- * Docs:
- * 
- *     http://docs.pigeonpost.apiary.io/#reference/0/email-capsules
- * 
- * Example Payload:
- * 
- *     {  
- *        "from": {
- *          "host": "smtp.gmail.com",
- *          "port": "587",
- *          "security": "tls",
- *          "auth": true,
- *          "username": "alberto.rvx@gmail.com",
- *          "password": "zAq12345",
- *          "address": "alberto.rvx@gmail.com",
- *          "name": "Alberto Siza"
- *        },
- *        "to": [
- *         {
- *           "address": "amanda.rvx@gmail.com",
- *           "name": "Amanda Carter"
- *         }
- *        ],
- *        "subject": "Hello Amanda",
- *        "message": "<b>Hello</b> Amanda!"
- *     }
- * 
- */
-
-$f3->route('POST /email',
-    function($f3) {
-        $result = sendEmail( json_decode( $f3->get("BODY") ) );
-        
-        // TODO: better result reporting.
-        if(!$result) {
-            $f3->error(500);
-        } 
+    if(is_array($attachments)) foreach($attachments as $att) {
+        $mail->addStringAttachment(base64_decode($att->content), $att->filename, $att->encoding, $att->type);
     }
-);
+    
+    
+    // TODO: better result reporting.
+    
+    if(!$mail->send()) {
+        $f3->error(500);
+    } 
+});
+
+
+
 
 $f3->run();
 
