@@ -1,21 +1,4 @@
-
 <?php
-
-
-// $dbHost = "192.186.239.166";  //Location Of Database usually its localhost
-// $dbUser = "nicholasstephan";  //Database User Name
-// $dbPass = "zAq12345";         //Database Password
-// $dbDatabase = "pigeonpost";   //Database Name
-
-// $db = mysql_connect("$dbHost", "$dbUser", "$dbPass") or die ("Error connecting to database.");
-// mysql_select_db("$dbDatabase", $db) or die ("Couldn't select the database.");
-
-// $res = mysql_query("select * from coops", $db);
-
-// while ($row = mysql_fetch_assoc($res)) {
-//     echo json_encode($row);
-// }
-
 
 require_once("vendor/autoload.php");
 
@@ -122,17 +105,17 @@ $f3->route('POST /email', function($f3) {
     $mail = new PHPMailer;
     
     $mail->isSMTP();
-    $mail->SMTPDebug = 2; // 1 or 2 for debugging
+    $mail->SMTPDebug = 0; // 1 or 2 for debugging
     $mail->Debugoutput = 'html';
     $mail->isHTML(true);
     
-    $mail->Host = $from['host'];
-    $mail->Port = $from['port'];
-    $mail->SMTPSecure = $from['security'];
-    $mail->SMTPAuth = $from['auth'];
-    $mail->Username = $from['username'];
-    $mail->Password = $from['password'];
-    $mail->setFrom($from['address'], $from['name']);
+    $mail->Host = $from->host;
+    $mail->Port = $from->port;
+    $mail->SMTPSecure = $from->security;
+    $mail->SMTPAuth = $from->auth;
+    $mail->Username = $from->username;
+    $mail->Password = $from->password;
+    $mail->setFrom($from->address, $from->name);
     
     if(is_array($to)) foreach($to as $recipient) {
         $mail->addAddress($recipient->address, $recipient->name);
@@ -156,20 +139,9 @@ $f3->route('POST /email', function($f3) {
     // TODO: better result reporting.
     
     if(!$mail->send()) {
-        $response = array(
-            success => false,
-            message => "It doesn't look like your bird made it over the mountains. Maybe you should send another one."
-        );
-        echo json_encode($response);
-        exit;
-    }
-    
-    $db->exec("INSERT INTO logs (secret) VALUES (?)", $secret);
-    
-    $response = array(
-        success=>true
-    );
-    echo json_encode($response);
+        echo "fucked"; 
+        exi
+    } 
 });
 
 
