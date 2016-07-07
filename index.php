@@ -156,9 +156,20 @@ $f3->route('POST /email', function($f3) {
     // TODO: better result reporting.
     
     if(!$mail->send()) {
-        echo "fucked"; 
+        $response = array(
+            success => false,
+            message => "It doesn't look like your bird made it over the mountains. Maybe you should send another one."
+        );
+        echo json_encode($response);
         exit;
-    } 
+    }
+    
+    $db->exec("INSERT INTO logs (secret) VALUES (?)", $secret);
+    
+    $response = array(
+        success=>true
+    );
+    echo json_encode($response);
 });
 
 
