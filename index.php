@@ -1,28 +1,101 @@
+
 <?php
 
+
+// $dbHost = "192.186.239.166";  //Location Of Database usually its localhost
+// $dbUser = "nicholasstephan";  //Database User Name
+// $dbPass = "zAq12345";         //Database Password
+// $dbDatabase = "pigeonpost";   //Database Name
+
+// $db = mysql_connect("$dbHost", "$dbUser", "$dbPass") or die ("Error connecting to database.");
+// mysql_select_db("$dbDatabase", $db) or die ("Couldn't select the database.");
+
+// $res = mysql_query("select * from coops", $db);
+
+// while ($row = mysql_fetch_assoc($res)) {
+//     echo json_encode($row);
+// }
+
+
 require_once("vendor/autoload.php");
-
-
-$contact_image_data="data:image/png;base64,iVBORw0KGgo[...]";
-
-
-
-
-
-// =============================================================================
-// Define Routes
-// =============================================================================
 
 $f3 = Base::instance();
 
 
+function connectToDatabase() {
+    $db = new DB\SQL(
+        'mysql:host=192.186.239.166;port=3306;dbname=pigeonpost',
+        'nicholasstephan',
+        'zAq12345'
+    );
+    
+    return $db;
+}
 
-// http://docs.pigeonpost.apiary.io/#reference/0/email-capsules
 
-$f3->route('POST /email', function($f3) {
+$f3->route('GET /', function($f3) {
+    echo View::instance()->render('welcome.html');
+});
+
+
+$f3->route('POST /coops', function($f3) {
+    
     $payload = json_decode( $f3->get("BODY") );
     
-    $from = $payload->from;
+    // todo: do some data validation
+    
+    $db = connectToDatabase();
+    $secret = md5(uniqid(rand(), true));
+    
+    $query = "
+        INSERT INTO 
+            coops (
+                host, 
+                port, 
+                security, 
+                auth, 
+                username, 
+                password, 
+                address, 
+                name, 
+                secret
+            ) 
+        VALUES 
+            (?,?,?,?,?,?,?,?,?)
+    ";
+    
+    $values = array(
+        1=>$payload->host,
+        2=>$payload->port,
+        3=>$payload->security,
+        4=>$payload->auth,
+        5=>$payload->username,
+        6=>$payload->password,
+        7=>$payload->address,
+        8=>$payload->name,
+        9=>$secret
+    );
+    
+    $db->exec($query, $values);
+    
+    // todo: check response from db
+    
+    $response = array(
+        success => true,
+        secret => $secret
+    );
+    echo json_encode($response);
+    
+});
+
+
+// http://docs.pigeonpost.apiary.io/#reference/0/email-capsules
+$f3->route('POST /email', function($f3) {
+    
+    // Gather up the data sent by the user.
+    
+    $payload = json_decode( $f3->get("BODY") );
+    $secret = $payload->secret;
     $to = $payload->to;
     $cc = $payload->cc;
     $bcc = $payload->bcc;
@@ -30,19 +103,36 @@ $f3->route('POST /email', function($f3) {
     $message = $payload->message;
     $attachments = $payload->attachments;
     
+    
+    $db = connectToDatabase();
+    $query = "SELECT * FROM coops WHERE secret = ?";
+    $response = $db->exec($query, $secret);
+    
+    if(!$response[0]) {
+        $response = array(
+            success => false,
+            message => "We've lost your coop! It was hear a minute ago..."
+        );
+        echo json_encode($response);
+        exit;
+    }
+    
+    $from = $response[0];
+    
     $mail = new PHPMailer;
     
     $mail->isSMTP();
-    $mail->SMTPDebug = 0; // 1 or 2 for debugging
+    $mail->SMTPDebug = 2; // 1 or 2 for debugging
     $mail->Debugoutput = 'html';
-    $mail->Host = $from->host;
-    $mail->Port = $from->port;
-    $mail->SMTPSecure = $from->security;
-    $mail->SMTPAuth = $from->auth;
-    $mail->Username = $from->username;
-    $mail->Password = $from->password;
-    $mail->setFrom($from->address, $from->name);
     $mail->isHTML(true);
+    
+    $mail->Host = $from['host'];
+    $mail->Port = $from['port'];
+    $mail->SMTPSecure = $from['security'];
+    $mail->SMTPAuth = $from['auth'];
+    $mail->Username = $from['username'];
+    $mail->Password = $from['password'];
+    $mail->setFrom($from['address'], $from['name']);
     
     if(is_array($to)) foreach($to as $recipient) {
         $mail->addAddress($recipient->address, $recipient->name);
@@ -63,11 +153,11 @@ $f3->route('POST /email', function($f3) {
         $mail->addStringAttachment(base64_decode($att->content), $att->filename, $att->encoding, $att->type);
     }
     
-    
     // TODO: better result reporting.
     
     if(!$mail->send()) {
-        $f3->error(500);
+        echo "fucked"; 
+        exit;
     } 
 });
 

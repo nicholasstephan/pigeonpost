@@ -5,52 +5,61 @@ HOST: https://pigeonpost-nicholasstephan.c9users.io/
 
 A little story about pigeons...
 
-## Email Capsules [/email]
 
-### Release a Bird [POST]
+## Pigeons need a place to sleep. [/coops]
+
+### Set up a coop to house your pigeons [POST]
+
++ Request (application/json)
+
+        {
+            name: "Pigeon Master",
+            email: "grandpuba@pigeonmasters.com",
+            host: "pigeonmasters.com",
+            port: "1234",
+            secure: true,
+            auth: "tpl",
+            username: "grandpuba",
+            password: "abupdanrg"
+        }
+        
++ Response 200 (application/json)
+    
+        {
+            secret: "shhhh..."
+        }
+        
+
+
+## Email capsules [/email]
+
+### Release a pigeon [POST]
 
 | PROPERTY                         | TYPE             | REQUIRED | LIMITS | DESCRIPTION                                                                                                               |
 |----------------------------------|------------------|----------|--------|---------------------------------------------------------------------------------------------------------------------------|
-| **from**                         | Objects          | YES      |        | Our birds our trained to tap this out in morse code to keep it secure.                                                    |
-| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | Tap tap taaap... tap tap... tap tap tap.                                                                                  |
-| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | Tap taaap tap tap... tap tap tap... taaaap tap tap.                                                                       |
-| &nbsp;&nbsp;&nbsp;&nbsp;host     | String           | YES      |        | Tap tap                                                                                                                   |
-| &nbsp;&nbsp;&nbsp;&nbsp;port     | String           | YES      |        | Tap tap (normally 587)                                                                                                    |
-| &nbsp;&nbsp;&nbsp;&nbsp;security | String           | YES      |        | Tap tap (normally "tls")                                                                                                  |
-| &nbsp;&nbsp;&nbsp;&nbsp;auth     | Boolean          | YES      |        | Tap                                                                                                                       |
-| &nbsp;&nbsp;&nbsp;&nbsp;username | String           | if _auth_|        | Tap tap                                                                                                                   |
-| &nbsp;&nbsp;&nbsp;&nbsp;password | String           | if _auth_|        | Tap                                                                                                                       |
-| **to**                           | Array of Objects | YES      |        | Our prime offering. These birds are big and strong, fed the freshest grains twice a day by beautiful women.               |
-| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | These birds will fly true to this destination.                                                                            |
-| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, written in our best calligraphy.                                                      |
-| **cc**                           | Array of Objects | NO       |        | A selection of smaller birds, kept in the back of the coop.                                                               |
-| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | We'll pass this along, hopefully the birds don't forget.                                                                  |
-| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, scribbled with a ball point pen.                                                      |
-| **bcc**                          | Array of Objects | NO       |        | If we told you about these birds, we'd have to kill you.                                                                  |
-| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | We promise, our birds will never divulge this secret.                                                                     |
-| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, written on flash paper with invisible ink.                                            |
-| **subject**                      | String           | NO       |        | Be sure to grab their attention, otherwise they might just eat the bird and not read the message!                         |
-| **message**                      | HTML/Text        | NO       |        | The body of your message, make it a good one.                                                                             |
-| **attachments**                  | Array of Objects | NO       | 10MB   | Our birds can carry a lot of weight, but don't weigh them down too heavily or the recipient might just send them back.    |
-| &nbsp;&nbsp;&nbsp;&nbsp;content  | String           | YES      |        | The attachment itself. (Pigeon Post Corp. takes no responsibility to damage sustained during transit)                     |
-| &nbsp;&nbsp;&nbsp;&nbsp;type     | String           | YES      |        | The meme type of the attachment. Normally something unpronounceable by our pigeons like "application/pdf" or "image/jpg"  |
-| &nbsp;&nbsp;&nbsp;&nbsp;encoding | String           | YES      |        | How the attachment is encoded. Should be one of 'base64', '7bit', '8bit', 'binary', or 'quoted-printable'.                |
-| &nbsp;&nbsp;&nbsp;&nbsp;filename | String           | YES      |        | We'll stencil this to the side of the attachment with care.                                                               |
+| **secret**                       | String           | YES      |        | Shhh... | 
+| **to**                           | Array of Objects | YES      |        | Our prime offering. These birds are big and strong, fed the freshest grains twice a day by beautiful women. |
+| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | These birds will fly true to this destination. |
+| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, written in our best calligraphy. |
+| **cc**                           | Array of Objects | NO       |        | A selection of smaller birds, kept in the back of the coop. |
+| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | We'll pass this along, hopefully the birds don't forget. |
+| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, scribbled with a ball point pen. |
+| **bcc**                          | Array of Objects | NO       |        | 	Ninja's trained in the high mountains. Nobody will even know they were there. If we told you any more about these birds, we'd have to kill you.|
+| &nbsp;&nbsp;&nbsp;&nbsp;address  | String           | YES      |        | We promise, our birds will never divulge this secret.|
+| &nbsp;&nbsp;&nbsp;&nbsp;name     | String           | NO       |        | The name you'd like on the capsule, written on flash paper with invisible ink. |
+| **subject**                      | String           | NO       |        | Be sure to grab their attention, otherwise they might just eat the bird and not read the message! |
+| **message**                      | HTML/Text        | NO       |        | The body of your message, make it a good one. |
+| **attachments**                  | Array of Objects | NO       | 10MB   | Our birds can carry a lot of weight, but don't weigh them down too heavily or the recipient might just send them back. |
+| &nbsp;&nbsp;&nbsp;&nbsp;content  | String           | YES      |        | The attachment itself. (Pigeon Post Corp. takes no responsibility to damage sustained during transit) |
+| &nbsp;&nbsp;&nbsp;&nbsp;type     | String           | YES      |        | The meme type of the attachment. Normally something unpronounceable by our pigeons like "application/pdf" or "image/jpg" |
+| &nbsp;&nbsp;&nbsp;&nbsp;encoding | String           | YES      |        | How the attachment is encoded. Should be one of 'base64', '7bit', '8bit', 'binary', or 'quoted-printable' |
+| &nbsp;&nbsp;&nbsp;&nbsp;filename | String           | YES      |        | We have a great set of stensils. What should we write? |
 
 
 + Request (application/json)
 
         {  
-            "from": {
-                "host": "smtp.gmail.com",
-                "port": "587",
-                "security": "tls",
-                "auth": true,
-                "username": "alberto.rvx@gmail.com",
-                "password": "--------",
-                "address": "alberto.rvx@gmail.com",
-                "name": "Alberto Siza"
-            },
+            "secret": "123",
             "to": [
                 {
                     "address": "amanda.rvx@gmail.com",
