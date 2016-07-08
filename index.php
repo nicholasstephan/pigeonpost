@@ -102,6 +102,7 @@ $f3->route('POST /email', function($f3) {
     
     $from = $response[0];
     
+    
     $mail = new PHPMailer;
     
     $mail->isSMTP();
@@ -109,13 +110,13 @@ $f3->route('POST /email', function($f3) {
     $mail->Debugoutput = 'html';
     $mail->isHTML(true);
     
-    $mail->Host = $from->host;
-    $mail->Port = $from->port;
-    $mail->SMTPSecure = $from->security;
-    $mail->SMTPAuth = $from->auth;
-    $mail->Username = $from->username;
-    $mail->Password = $from->password;
-    $mail->setFrom($from->address, $from->name);
+    $mail->Host = $from['host'];
+    $mail->Port = $from['port'];
+    $mail->SMTPSecure = $from['security'];
+    $mail->SMTPAuth = $from['auth'];
+    $mail->Username = $from['username'];
+    $mail->Password = $from['password'];
+    $mail->setFrom($from['address'], $from['name']);
     
     if(is_array($to)) foreach($to as $recipient) {
         $mail->addAddress($recipient->address, $recipient->name);
@@ -139,9 +140,20 @@ $f3->route('POST /email', function($f3) {
     // TODO: better result reporting.
     
     if(!$mail->send()) {
-        echo "fucked"; 
-        exi
-    } 
+        $response = array(
+            success => false,
+            message => "It doesn't look like your bird made it over the mountains. Maybe you should send another one."
+        );
+        echo json_encode($response);
+        exit;
+    }
+    
+    $db->exec("INSERT INTO logs (secret) VALUES (?)", $secret);
+    
+    $response = array(
+        success => true
+    );
+    echo json_encode($response);
 });
 
 
