@@ -23,7 +23,7 @@ $f3->route('GET /', function($f3) {
 
 $f3->route('POST /coops', function($f3) {
     
-    $payload = json_decode( $f3->get("BODY") );
+    $payload = json_decode( file_get_contents('php://input') );
     
     // todo: do some data validation
     
@@ -77,7 +77,8 @@ $f3->route('POST /email', function($f3) {
     
     // Gather up the data sent by the user.
     
-    $payload = json_decode( $f3->get("BODY") );
+    $payload = json_decode( file_get_contents('php://input') );
+    
     $secret = $payload->secret;
     $to = $payload->to;
     $cc = $payload->cc;
