@@ -77,7 +77,6 @@ $f3->route('POST /coops', function($f3) {
 });
 
 
-// http://docs.pigeonpost.apiary.io/#reference/0/email-capsules
 $f3->route('POST /email', function($f3) {
     
     // Gather up the data sent by the user.
