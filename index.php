@@ -6,7 +6,6 @@ header('Access-Control-Allow-Methods: GET, POST');
 
 
 require_once("vendor/autoload.php");
-
 $f3 = Base::instance();
 
 
@@ -92,20 +91,30 @@ $f3->route('POST /email', function($f3) {
     $attachments = $payload->attachments;
     
     
-    $db = connectToDatabase();
-    $query = "SELECT * FROM coops WHERE secret = ?";
-    $response = $db->exec($query, $secret);
+    // $db = connectToDatabase();
+    // $query = "SELECT * FROM coops WHERE secret = ?";
+    // $response = $db->exec($query, $secret);
     
-    if(!$response[0]) {
-        $response = array(
-            success => false,
-            message => "We've lost your coop! It was hear a minute ago..."
-        );
-        echo json_encode($response);
-        exit;
-    }
+    // if(!$response[0]) {
+    //     $response = array(
+    //         success => false,
+    //         message => "We've lost your coop! It was hear a minute ago..."
+    //     );
+    //     echo json_encode($response);
+    //     exit;
+    // }
     
-    $from = $response[0];
+    // $from = $response[0];
+    $from = json_decode('{
+        "name": "Alberto Siza",
+        "address": "alberto.rvx@gmail.com",
+        "host": "smtp.gmail.com",
+        "port": "587",
+        "security": true,
+        "auth": "TLS",
+        "username": "alberto.rvx@gmail.com",
+        "password": "zAq12345"
+    }');
     $debug = "";
     
     $mail = new PHPMailer;
