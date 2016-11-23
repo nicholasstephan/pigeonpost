@@ -105,27 +105,66 @@ $f3->route('POST /email', function($f3) {
     // }
     
     // $from = $response[0];
-    $from = $payload['from'];
-    
-    // array(
-    //     name => "Alberto Siza",
-    //     address => "alberto.rvx@gmail.com",
-    //     host => "smtp.gmail.com",
-    //     port => "587",
-    //     security => true,
-    //     auth => "TLS",
-    //     username => "alberto.rvx@gmail.com",
-    //     password => "zAq12345"
-    // );
+    if($payload['from']) {
+        $from = $payload['from'];
+    }
+    else if($payload['secret'] == "knack") {
+        $from = array(
+        	name => "Snooping",
+    		address => "alberto.rvx@gmail.com",
+    		host => "smtp.gmail.com",
+    		port => 587,
+    		security => "TLS",
+    		auth => true,
+    		username => "alberto.rvx@gmail.com",
+    		password => "zAq12345"  
+        );
+    }
+    else if($payload['secret'] == "impact") {
+        $from = array(
+        	name => "Impact XM",
+    		address => "tools@impact-xm.com",
+    		host => "homie.mail.dreamhost.com",
+    		port => 587,
+    		security => "TLS",
+    		auth => true,
+    		username => "tools@impact-xm.com",
+    		password => "BgNEvTSWYu7O"  
+        );
+    }
+    else if($payload['secret'] == "66b7ae4e007281bf38b4d9016167dd2c") {
+        $from = array(
+        	name => "Amadeus",
+        	address => "northamerica.events@amadeus.com",
+        	host => "Mail.amadeuspowerstravel.com",
+        	port => 25,
+        	security => "TLS",
+        	auth => true,
+        	username => "noreply@amadeuspowerstravel.com",
+        	password => "25amadeus16"
+        );
+    }
+    else {
+        $from = array(
+        	name => "Pigeon Post",
+    		address => "alberto.rvx@gmail.com",
+    		host => "smtp.gmail.com",
+    		port => 587,
+    		security => "TLS",
+    		auth => true,
+    		username => "alberto.rvx@gmail.com",
+    		password => "zAq12345"  
+        );
+    }
     
     $debug = "";
     
     $mail = new PHPMailer;
     
     $mail->isSMTP();
-    $mail->SMTPDebug = 1; // 1 or 2 for debugging
+    $mail->SMTPDebug = 2; // 1 or 2 for debugging
     $mail->Debugoutput = function($str, $level) {
-        $GLOBALS['debug'] .= "$level: $str\n";
+        $debug .= "$level: $str\n";
     };
     $mail->Debugoutput = "html";
     $mail->isHTML(true);
