@@ -124,9 +124,9 @@ $f3->route('POST /email', function($f3) {
     
     $mail->isSMTP();
     $mail->SMTPDebug = 1; // 1 or 2 for debugging
-    // $mail->Debugoutput = function($str, $level) {
-    //     $GLOBALS['debug'] .= "$level: $str\n";
-    // };
+    $mail->Debugoutput = function($str, $level) {
+        $GLOBALS['debug'] .= "$level: $str\n";
+    };
     $mail->Debugoutput = "html";
     $mail->isHTML(true);
     
