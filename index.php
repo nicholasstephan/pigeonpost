@@ -125,10 +125,10 @@ $f3->route('POST /email', function($f3) {
         	name => "Impact XM",
     		address => "tools@impact-xm.com",
     		host => "homie.mail.dreamhost.com",
-    		port => 587,
+    		port => 25,
     		security => "TLS",
     		auth => true,
-    		username => "tools@impact-xm.com",
+    		username => "fulfillment@impactxmstaging.com",
     		password => "BgNEvTSWYu7O"  
         );
     }
@@ -136,7 +136,7 @@ $f3->route('POST /email', function($f3) {
         $from = array(
         	name => "Amadeus",
         	address => "northamerica.events@amadeus.com",
-        	host => "Mail.amadeuspowerstravel.com",
+        	host => "homie.mail.dreamhost.com",
         	port => 25,
         	security => "TLS",
         	auth => true,
@@ -147,12 +147,12 @@ $f3->route('POST /email', function($f3) {
     else {
         $from = array(
         	name => "Pigeon Post",
-    		address => "alberto.rvx@gmail.com",
+    		address => "pigeonpostonline@gmail.com",
     		host => "smtp.gmail.com",
     		port => 587,
     		security => "TLS",
     		auth => true,
-    		username => "alberto.rvx@gmail.com",
+    		username => "pigeonpostonline@gmail.com",
     		password => "zAq12345"  
         );
     }
