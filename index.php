@@ -105,7 +105,7 @@ $f3->route('POST /email', function($f3) {
     // }
     
     // $from = $response[0];
-    if($payload['from']) {
+    if(isset($payload['from'])) {
         $from = $payload['from'];
     }
     else if($payload['secret'] == "knack") {
