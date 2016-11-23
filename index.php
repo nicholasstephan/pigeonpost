@@ -163,10 +163,10 @@ $f3->route('POST /email', function($f3) {
     
     $mail->isSMTP();
     $mail->SMTPDebug = 0; // 1 or 2 for debugging
+    // $mail->Debugoutput = "html";
     $mail->Debugoutput = function($str, $level) {
         $debug .= "$level: $str\n";
     };
-    $mail->Debugoutput = "html";
     $mail->isHTML(true);
     
     $mail->Host = $from['host'];    
