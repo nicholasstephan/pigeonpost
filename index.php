@@ -27,7 +27,7 @@ $f3->route('GET /', function($f3) {
 
 $f3->route('POST /coops', function($f3) {
     
-    $payload = json_decode( file_get_contents('php://input') );
+    $payload = json_decode( file_get_contents('php://input'), true );
     
     // todo: do some data validation
     
@@ -52,14 +52,14 @@ $f3->route('POST /coops', function($f3) {
     ";
     
     $values = array(
-        1=>$payload->host,
-        2=>$payload->port,
-        3=>$payload->security,
-        4=>$payload->auth,
-        5=>$payload->username,
-        6=>$payload->password,
-        7=>$payload->address,
-        8=>$payload->name,
+        1=>$payload['host'],
+        2=>$payload['port'],
+        3=>$payload['security'],
+        4=>$payload['auth'],
+        5=>$payload['username'],
+        6=>$payload['password'],
+        7=>$payload['address'],
+        8=>$payload['name'],
         9=>$secret
     );
     
@@ -80,15 +80,15 @@ $f3->route('POST /email', function($f3) {
     
     // Gather up the data sent by the user.
     
-    $payload = json_decode( file_get_contents('php://input') );
+    $payload = json_decode( file_get_contents('php://input'), true );
     
-    $secret = $payload->secret;
-    $to = $payload->to;
-    $cc = $payload->cc;
-    $bcc = $payload->bcc;
-    $subject = $payload->subject;
-    $message = $payload->message;
-    $attachments = $payload->attachments;
+    $secret = $payload['secret'];
+    $to = $payload['to'];
+    $cc = $payload['cc'];
+    $bcc = $payload['bcc'];
+    $subject = $payload['subject'];
+    $message = $payload['message'];
+    $attachments = $payload['attachments'];
     
     
     // $db = connectToDatabase();
