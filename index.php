@@ -105,16 +105,16 @@ $f3->route('POST /email', function($f3) {
     // }
     
     // $from = $response[0];
-    $from = json_decode('{
-        "name": "Alberto Siza",
-        "address": "alberto.rvx@gmail.com",
-        "host": "smtp.gmail.com",
-        "port": "587",
-        "security": true,
-        "auth": "TLS",
-        "username": "alberto.rvx@gmail.com",
-        "password": "zAq12345"
-    }');
+    $from = array(
+        name => "Alberto Siza",
+        address => "alberto.rvx@gmail.com",
+        host => "smtp.gmail.com",
+        port => "587",
+        security => true,
+        auth => "TLS",
+        username => "alberto.rvx@gmail.com",
+        password => "zAq12345"
+    );
     $debug = "";
     
     $mail = new PHPMailer;
@@ -166,7 +166,7 @@ $f3->route('POST /email', function($f3) {
         exit;
     }
     
-    $db->exec("INSERT INTO logs (secret) VALUES (?)", $secret);
+    // $db->exec("INSERT INTO logs (secret) VALUES (?)", $secret);
     
     $response = array(
         success => true
