@@ -13,7 +13,7 @@ $f3 = Base::instance();
 function connectToDatabase() {
     $db = new DB\SQL(
         'mysql:host=192.186.239.166;port=3306;dbname=pigeonpost',
-        'nicholasstephan',
+        'pigeonmaster',
         'zAq12345'
     );
     
@@ -106,16 +106,19 @@ $f3->route('POST /email', function($f3) {
     }
     
     $from = $response[0];
-    
+    $debug = "";
     
     $mail = new PHPMailer;
     
     $mail->isSMTP();
-    $mail->SMTPDebug = 0; // 1 or 2 for debugging
-    $mail->Debugoutput = 'html';
+    $mail->SMTPDebug = 1; // 1 or 2 for debugging
+    // $mail->Debugoutput = function($str, $level) {
+    //     $GLOBALS['debug'] .= "$level: $str\n";
+    // };
+    $mail->Debugoutput = "html";
     $mail->isHTML(true);
     
-    $mail->Host = $from['host'];
+    $mail->Host = $from['host'];    
     $mail->Port = $from['port'];
     $mail->SMTPSecure = $from['security'];
     $mail->SMTPAuth = $from['auth'];
@@ -147,7 +150,8 @@ $f3->route('POST /email', function($f3) {
     if(!$mail->send()) {
         $response = array(
             success => false,
-            message => "It doesn't look like your bird made it over the mountains. Maybe you should send another one."
+            message => "It doesn't look like your bird made it over the mountains. Maybe you should send another one.",
+            debug => $debug
         );
         echo json_encode($response);
         exit;
