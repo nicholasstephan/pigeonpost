@@ -139,22 +139,22 @@ $f3->route('POST /email', function($f3) {
     $mail->setFrom($from['address'], $from['name']);
     
     if(is_array($to)) foreach($to as $recipient) {
-        $mail->addAddress($recipient->address, $recipient->name);
+        $mail->addAddress($recipient['address'], $recipient['name']);
     }
     
     if(is_array($cc)) foreach($cc as $recipient) {
-        $mail->addCC($recipient->address, $recipient->name);
+        $mail->addCC($recipient['address'], $recipient['name']);
     }
     
     if(is_array($bcc)) foreach($bcc as $recipient) {
-        $mail->addBCC($recipient->address, $recipient->name);
+        $mail->addBCC($recipient['address'], $recipient['name']);
     }
     
     $mail->Subject = $subject;
     $mail->Body = $message;
     
     if(is_array($attachments)) foreach($attachments as $att) {
-        $mail->addStringAttachment(base64_decode($att->content), $att->filename, $att->encoding, $att->type);
+        $mail->addStringAttachment(base64_decode($att['content']), $att['filename'], $att['encoding'], $att['type']);
     }
     
     // TODO: better result reporting.
