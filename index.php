@@ -111,13 +111,13 @@ $f3->route('POST /email', function($f3) {
     else if($payload['secret'] == "knack") {
         $from = array(
         	name => "Snooping",
-    		address => "alberto.rvx@gmail.com",
-    		host => "smtp.gmail.com",
-    		port => 587,
-    		security => "TLS",
-    		auth => true,
-    		username => "alberto.rvx@gmail.com",
-    		password => "zAq12345"  
+    		address => "pigeonpostonline@gmail.com",
+        	host => "smtp.gmail.com",
+        	port => 587,
+        	security => "tls",
+        	auth => true,
+        	username => "pigeonpostonline@gmail.com",
+        	password => "Pibbol3th"  
         );
     }
     else if($payload['secret'] == "impact") {
