@@ -144,6 +144,18 @@ $f3->route('POST /email', function($f3) {
         	password => "25amadeus16"
         );
     }
+    else if($payload['secret'] == "nfpa") {
+        $from = array(
+        	name => "NFPA",
+        	address => "noreply@nfpa2017.com",
+        	host => "homie.mail.dreamhost.com",
+        	port => 25,
+        	security => "TLS",
+        	auth => true,
+        	username => "noreply@nfpa2017.com",
+        	password => "2017%^brick"
+        );
+    }
     else {
         $from = array(
         	name => "Pigeon Post",
