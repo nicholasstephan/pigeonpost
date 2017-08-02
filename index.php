@@ -174,8 +174,8 @@ $f3->route('POST /email', function($f3) {
     $mail = new PHPMailer;
     
     $mail->isSMTP();
-    $mail->SMTPDebug = 0; // 1 or 2 for debugging
-    // $mail->Debugoutput = "html";
+    $mail->SMTPDebug = 2; // 1 or 2 for debugging
+    // $mail->Debugoutput = "text";
     $mail->Debugoutput = function($str, $level) {
         $debug .= "$level: $str\n";
     };
