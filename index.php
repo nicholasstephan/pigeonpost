@@ -117,7 +117,7 @@ $f3->route('POST /email', function($f3) {
         	security => "tls",
         	auth => true,
         	username => "pigeonpostonline@gmail.com",
-        	password => "Pibbol3th"  
+        	password => "Gibbol3th"  
         );
     }
     else if($payload['secret'] == "impact") {
@@ -165,7 +165,7 @@ $f3->route('POST /email', function($f3) {
     		security => "TLS",
     		auth => true,
     		username => "pigeonpostonline@gmail.com",
-    		password => "zAq12345"  
+    		password => "Gibbol3th"  
         );
     }
     
